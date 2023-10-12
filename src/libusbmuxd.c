@@ -151,6 +151,14 @@ static usbmuxd_device_info_t *devices_find(uint32_t handle)
 	return NULL;
 }
 
+static char* __usbmuxd_socket_path = NULL;
+
+void set_usbmuxd_path(const char* path) {
+	if(__usbmuxd_socket_path != NULL){
+		free(__usbmuxd_socket_path);
+	}
+	__usbmuxd_socket_path = strdup(path);
+}
 /**
  * Creates a socket connection to usbmuxd.
  * For Mac/Linux it is a unix domain socket,
@@ -216,7 +224,7 @@ static int connect_usbmuxd_socket()
 #if defined(WIN32) || defined(__CYGWIN__)
 	res = socket_connect("127.0.0.1", USBMUXD_SOCKET_PORT);
 #else
-	res = socket_connect_unix(USBMUXD_SOCKET_FILE);
+	res = socket_connect_unix(__usbmuxd_socket_path);
 #endif
 	if (res < 0) {
 		res = -errno;

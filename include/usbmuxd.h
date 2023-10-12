@@ -84,6 +84,8 @@ typedef void (*usbmuxd_event_cb_t) (const usbmuxd_event_t *event, void *user_dat
  */
 typedef struct usbmuxd_subscription_context* usbmuxd_subscription_context_t;
 
+void set_usbmuxd_path(const char* path);
+
 /**
  * Subscribe a callback function to be called upon device add/remove events.
  * This method can be called multiple times to register multiple callbacks
